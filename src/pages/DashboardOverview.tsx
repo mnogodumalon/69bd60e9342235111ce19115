@@ -65,8 +65,7 @@ export default function DashboardOverview() {
   const listArtikel = useMemo(
     () => enrichedArtikel.filter(a => {
       if (!selectedListId) return false;
-      const url = createRecordUrl(APP_IDS.EINKAUFSLISTEN, selectedListId);
-      return a.fields.einkaufsliste === url;
+      return extractRecordId(a.fields.einkaufsliste) === selectedListId;
     }),
     [enrichedArtikel, selectedListId]
   );
@@ -210,8 +209,7 @@ export default function DashboardOverview() {
             )}
             {einkaufslisten.map(list => {
               const listItems = enrichedArtikel.filter(a => {
-                const url = createRecordUrl(APP_IDS.EINKAUFSLISTEN, list.record_id);
-                return a.fields.einkaufsliste === url;
+                return extractRecordId(a.fields.einkaufsliste) === list.record_id;
               });
               const offen = listItems.filter(a => a.fields.status?.key !== 'gekauft').length;
               const total = listItems.length;
